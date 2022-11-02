@@ -1,12 +1,20 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'ding-talk-message'
+description: 'ding-talk-message'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  access_token: 
+    description: 'access_token'
     required: true
-    default: '1000'
+  msgtype: 
+    description: 'msgtype'
+    required: true
+  content: 
+    description: 'content'
+    required: true
+  at: 
+    description: 'at'
+    required: true
 outputs:
-  time: # output will be available to future steps
+  time:
     description: 'The current time after waiting'
 runs:
   using: 'node16'

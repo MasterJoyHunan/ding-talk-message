@@ -1,21 +1,34 @@
 const core = require('@actions/core');
-const wait = require('./wait');
-
+const axios = require('axios');
 
 // most @actions toolkit packages have async methods
 async function run() {
-  try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+    try {
+        const access_token = core.getInput('access_token', { required: true });
+        const msgtype = core.getInput('msgtype');
+        const content = core.getInput('content', { required: true });
+        const at = core.getInput('at');
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
+        const contentJson = JSON.parse(content);
+        const atJson = textAt ? JSON.parse(at) : {};
 
-    core.setOutput('time', new Date().toTimeString());
-  } catch (error) {
-    core.setFailed(error.message);
-  }
+        const payload = {
+            msgtype,
+            [msgtype]: contentJson,
+            atJson
+        };
+
+        const ret = await axios.post(`https://oapi.dingtalk.com/robot/send?access_token=${access_token}`, JSON.stringify(payload), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log('response:', ret.data);
+
+    } catch (error) {
+        core.setFailed(error.message);
+    }
 }
 
 run();
