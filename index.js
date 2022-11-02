@@ -10,7 +10,7 @@ async function run() {
         const at = core.getInput('at');
 
         const contentJson = JSON.parse(content);
-        const atJson = textAt ? JSON.parse(at) : {};
+        const atJson = at ? JSON.parse(at) : {};
 
         const payload = {
             msgtype,
